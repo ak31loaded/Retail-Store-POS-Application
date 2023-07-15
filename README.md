@@ -1,3 +1,4 @@
+Website Link - https://retail-store-pos-app.netlify.app/
 # Retail-Store-POS-Application
 This Application Allows user to
 - Do CRUD operation Like adding, deleting, modifying and updating items in the list
@@ -11,3 +12,4 @@ This Application Allows user to
 - Node.js
 - Express.js
 - MongoDB
+
