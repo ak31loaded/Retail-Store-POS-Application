@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const newuser = new UserModel({ ...req.body, verified: false });
+    const newuser = new UserModel({ ...req.body, verified: true });
     await newuser.save();
     res.send("User Registered successfully");
   } catch (error) {

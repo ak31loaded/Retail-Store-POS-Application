@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const URL = 'mongodb+srv://Arpit:7xS3ErhTzRy3oC55@cluster0.b6k22xq.mongodb.net?retryWrites=true&w=majority'
-
+const URL = "Your DB URL"
 mongoose.connect(URL)
 
 let connectionObj = mongoose.connection

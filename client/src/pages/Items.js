@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message, Modal, Select, Table } from "antd";
 
@@ -10,10 +10,12 @@ function Items() {
   const [addEditModalVisibilty, setAddEditModalVisibilty] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.rootReducer);
   const getAllItems = () => {
+    console.log(user)
     dispatch({ type: "showLoading" });
     axios
-      .get("/api/items/get-all-items")
+      .get("<Your Backend URL>/api/items/get-all-items")
       .then((response) => {
         dispatch({ type: "hideLoading" });
         setItemsData(response.data);
@@ -25,9 +27,15 @@ function Items() {
   };
 
   const deleteItem = (record) => {
+    const userId=JSON.parse(localStorage.getItem('pos-user')).userId;
+    if(userId!='<Admin UserID>')
+    {
+    message.error("Only Admin can perform this operation")
+    return;
+    }
     dispatch({ type: "showLoading" });
     axios
-      .post("/api/items/delete-item" , {itemId : record._id})
+      .post("<Your Backend URL>/api/items/delete-item" , {itemId : record._id})
       .then((response) => {
         dispatch({ type: "hideLoading" });
         message.success('Item deleted successdully')
@@ -83,12 +91,18 @@ function Items() {
   }, []);
 
   const onFinish = (values) => {
-
+    const userId=JSON.parse(localStorage.getItem('pos-user')).userId;
+    console.log(userId);
+    if(userId!=='<Admin UserID>')
+    {
+    message.error("Only Admin can perform this operation")
+    return;
+    }
     dispatch({ type: "showLoading" });
     if(editingItem===null)
     {
       axios
-      .post("/api/items/add-item", values)
+      .post("<Your Backend URL>/api/items/add-item", values)
       .then((response) => {
         dispatch({ type: "hideLoading" });
         message.success("Item added successfully");
@@ -103,7 +117,7 @@ function Items() {
     }
     else{
       axios
-      .post("/api/items/edit-item", {...values , itemId : editingItem._id})
+      .post("<Your Backend URL>/api/items/edit-item", {...values , itemId : editingItem._id})
       .then((response) => {
         dispatch({ type: "hideLoading" });
         message.success("Item edited successfully");

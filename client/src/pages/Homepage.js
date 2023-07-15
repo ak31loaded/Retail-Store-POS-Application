@@ -6,6 +6,7 @@ import Item from "../components/Item";
 import "../resourses/items.css";
 import { useDispatch } from "react-redux";
 function Homepage() {
+  const userId=localStorage.getItem('pos-user').userId;
   const [itemsData, setItemsData] = useState([]);
   const [selectedCategory, setSelectedCategoty] = useState("fruits");
   const categories = [
@@ -29,7 +30,7 @@ function Homepage() {
   const getAllItems = () => {
     dispatch({ type: "showLoading" });
     axios
-      .get("/api/items/get-all-items")
+      .get("<Your Backend URL>/api/items/get-all-items")
       .then((response) => {
         dispatch({ type: "hideLoading" });
         setItemsData(response.data);

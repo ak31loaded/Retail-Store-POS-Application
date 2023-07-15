@@ -98,7 +98,7 @@ function CartPage() {
     };
 
     axios
-      .post("/api/bills/charge-bill", reqObject)
+      .post("<Your Backend URL>/api/bills/charge-bill", reqObject)
       .then(() => {
         message.success("Bill Charged Successfully");
         navigate('/bills')

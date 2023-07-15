@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, message, Row } from "antd";
 import '../resourses/authentication.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 function Login() {
 
 
@@ -11,9 +11,10 @@ function Login() {
   const naviate = useNavigate()
   const onFinish=(values)=>{
     dispatch({type:'showLoading'})
-    axios.post('/api/users/login' , values).then((res)=>{
+    axios.post('<Your Backend URL>/api/users/login' , values).then((res)=>{
      dispatch({type:'hideLoading'})
       message.success('Login successfull')
+     dispatch({type:'storeUser',payload:res.data.userId});
       localStorage.setItem('pos-user' , JSON.stringify(res.data))
       naviate('/home')
     }).catch(()=>{

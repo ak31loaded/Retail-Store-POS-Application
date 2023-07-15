@@ -16,7 +16,7 @@ function Bills() {
   const getAllBills = () => {
     dispatch({ type: "showLoading" });
     axios
-      .get("/api/bills/get-all-bills")
+      .get("<Your Backend URL>/api/bills/get-all-bills")
       .then((response) => {
         dispatch({ type: "hideLoading" });
         const data = response.data
