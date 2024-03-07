@@ -12,7 +12,6 @@ function Items() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.rootReducer);
   const getAllItems = () => {
-    console.log(user);
     dispatch({ type: "showLoading" });
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/items/get-all-items`)
@@ -22,7 +21,6 @@ function Items() {
       })
       .catch((error) => {
         dispatch({ type: "hideLoading" });
-        console.log(error);
       });
   };
 
@@ -45,7 +43,6 @@ function Items() {
       .catch((error) => {
         dispatch({ type: "hideLoading" });
         message.error("Something went wrong");
-        console.log(error);
       });
   };
 
@@ -93,7 +90,6 @@ function Items() {
 
   const onFinish = (values) => {
     const userId = JSON.parse(localStorage.getItem("pos-user")).userId;
-    console.log(userId);
     if (userId !== "<Admin UserID>") {
       message.error("Only Admin can perform this operation");
       return;
@@ -111,7 +107,6 @@ function Items() {
         .catch((error) => {
           dispatch({ type: "hideLoading" });
           message.error("Something went wrong");
-          console.log(error);
         });
     } else {
       axios
@@ -129,7 +124,6 @@ function Items() {
         .catch((error) => {
           dispatch({ type: "hideLoading" });
           message.error("Something went wrong");
-          console.log(error);
         });
     }
   };

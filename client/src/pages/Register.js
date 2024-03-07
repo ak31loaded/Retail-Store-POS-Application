@@ -9,7 +9,6 @@ function Register() {
   const navigate = useNavigate();
   const onFinish = (values) => {
     dispatch({ type: "showLoading" });
-    console.log(process.env.REACT_APP_API_URL);
     axios
       .post(`${process.env.REACT_APP_API_URL}/api/users/register`, values)
       .then((res) => {

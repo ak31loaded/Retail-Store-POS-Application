@@ -37,7 +37,6 @@ function Homepage() {
       })
       .catch((error) => {
         dispatch({ type: "hideLoading" });
-        console.log(error);
       });
   };
 
