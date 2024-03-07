@@ -12,10 +12,10 @@ function Items() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.rootReducer);
   const getAllItems = () => {
-    console.log(user)
+    console.log(user);
     dispatch({ type: "showLoading" });
     axios
-      .get("<Your Backend URL>/api/items/get-all-items")
+      .get(`${process.env.REACT_APP_API_URL}/api/items/get-all-items`)
       .then((response) => {
         dispatch({ type: "hideLoading" });
         setItemsData(response.data);
@@ -27,23 +27,24 @@ function Items() {
   };
 
   const deleteItem = (record) => {
-    const userId=JSON.parse(localStorage.getItem('pos-user')).userId;
-    if(userId!='<Admin UserID>')
-    {
-    message.error("Only Admin can perform this operation")
-    return;
+    const userId = JSON.parse(localStorage.getItem("pos-user")).userId;
+    if (userId != "<Admin UserID>") {
+      message.error("Only Admin can perform this operation");
+      return;
     }
     dispatch({ type: "showLoading" });
     axios
-      .post("<Your Backend URL>/api/items/delete-item" , {itemId : record._id})
+      .post(`${process.env.REACT_APP_API_URL}/api/items/delete-item`, {
+        itemId: record._id,
+      })
       .then((response) => {
         dispatch({ type: "hideLoading" });
-        message.success('Item deleted successdully')
-        getAllItems()
+        message.success("Item deleted successdully");
+        getAllItems();
       })
       .catch((error) => {
         dispatch({ type: "hideLoading" });
-        message.error('Something went wrong')
+        message.error("Something went wrong");
         console.log(error);
       });
   };
@@ -80,7 +81,7 @@ function Items() {
               setAddEditModalVisibilty(true);
             }}
           />
-          <DeleteOutlined className="mx-2" onClick={()=>deleteItem(record)}/>
+          <DeleteOutlined className="mx-2" onClick={() => deleteItem(record)} />
         </div>
       ),
     },
@@ -91,45 +92,45 @@ function Items() {
   }, []);
 
   const onFinish = (values) => {
-    const userId=JSON.parse(localStorage.getItem('pos-user')).userId;
+    const userId = JSON.parse(localStorage.getItem("pos-user")).userId;
     console.log(userId);
-    if(userId!=='<Admin UserID>')
-    {
-    message.error("Only Admin can perform this operation")
-    return;
+    if (userId !== "<Admin UserID>") {
+      message.error("Only Admin can perform this operation");
+      return;
     }
     dispatch({ type: "showLoading" });
-    if(editingItem===null)
-    {
+    if (editingItem === null) {
       axios
-      .post("<Your Backend URL>/api/items/add-item", values)
-      .then((response) => {
-        dispatch({ type: "hideLoading" });
-        message.success("Item added successfully");
-        setAddEditModalVisibilty(false);
-        getAllItems();
-      })
-      .catch((error) => {
-        dispatch({ type: "hideLoading" });
-        message.error("Something went wrong");
-        console.log(error);
-      });
-    }
-    else{
+        .post(`${process.env.REACT_APP_API_URL}/api/items/add-item`, values)
+        .then((response) => {
+          dispatch({ type: "hideLoading" });
+          message.success("Item added successfully");
+          setAddEditModalVisibilty(false);
+          getAllItems();
+        })
+        .catch((error) => {
+          dispatch({ type: "hideLoading" });
+          message.error("Something went wrong");
+          console.log(error);
+        });
+    } else {
       axios
-      .post("<Your Backend URL>/api/items/edit-item", {...values , itemId : editingItem._id})
-      .then((response) => {
-        dispatch({ type: "hideLoading" });
-        message.success("Item edited successfully");
-        setEditingItem(null)
-        setAddEditModalVisibilty(false);
-        getAllItems();
-      })
-      .catch((error) => {
-        dispatch({ type: "hideLoading" });
-        message.error("Something went wrong");
-        console.log(error);
-      });
+        .post(`${process.env.REACT_APP_API_URL}/api/items/edit-item`, {
+          ...values,
+          itemId: editingItem._id,
+        })
+        .then((response) => {
+          dispatch({ type: "hideLoading" });
+          message.success("Item edited successfully");
+          setEditingItem(null);
+          setAddEditModalVisibilty(false);
+          getAllItems();
+        })
+        .catch((error) => {
+          dispatch({ type: "hideLoading" });
+          message.error("Something went wrong");
+          console.log(error);
+        });
     }
   };
   return (
@@ -145,11 +146,11 @@ function Items() {
       {addEditModalVisibilty && (
         <Modal
           onCancel={() => {
-            setEditingItem(null)
-            setAddEditModalVisibilty(false)
+            setEditingItem(null);
+            setAddEditModalVisibilty(false);
           }}
           visible={addEditModalVisibilty}
-          title={`${editingItem !==null ? 'Edit Item' : 'Add New Item'}`}
+          title={`${editingItem !== null ? "Edit Item" : "Add New Item"}`}
           footer={false}
         >
           <Form

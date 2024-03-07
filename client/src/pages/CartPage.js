@@ -14,7 +14,7 @@ function CartPage() {
   const { cartItems } = useSelector((state) => state.rootReducer);
   const [billChargeModal, setBillChargeModal] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const increaseQuantity = (record) => {
@@ -98,10 +98,10 @@ function CartPage() {
     };
 
     axios
-      .post("<Your Backend URL>/api/bills/charge-bill", reqObject)
+      .post(`${process.env.REACT_APP_API_URL}/api/bills/charge-bill`, reqObject)
       .then(() => {
         message.success("Bill Charged Successfully");
-        navigate('/bills')
+        navigate("/bills");
       })
       .catch(() => {
         message.success("Something went wrong");
@@ -111,7 +111,12 @@ function CartPage() {
   return (
     <DefaultLayout>
       <h3>Cart</h3>
-      <Table columns={columns} dataSource={cartItems} bordered pagination={false}/>
+      <Table
+        columns={columns}
+        dataSource={cartItems}
+        bordered
+        pagination={false}
+      />
       <hr />
       <div className="d-flex justify-content-end flex-column align-items-end">
         <div className="subtotal">

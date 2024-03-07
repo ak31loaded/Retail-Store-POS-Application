@@ -4,10 +4,10 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message, Modal, Select, Table } from "antd";
-import ReactToPrint from 'react-to-print';
-import { useReactToPrint } from 'react-to-print';
+import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 function Bills() {
-    const componentRef = useRef();
+  const componentRef = useRef();
   const [billsData, setBillsData] = useState([]);
   const [printBillModalVisibility, setPrintBillModalVisibilty] =
     useState(false);
@@ -16,11 +16,11 @@ function Bills() {
   const getAllBills = () => {
     dispatch({ type: "showLoading" });
     axios
-      .get("<Your Backend URL>/api/bills/get-all-bills")
+      .get(`${process.env.REACT_APP_API_URL}/api/bills/get-all-bills`)
       .then((response) => {
         dispatch({ type: "hideLoading" });
-        const data = response.data
-        data.reverse()
+        const data = response.data;
+        data.reverse();
         setBillsData(data);
       })
       .catch((error) => {
@@ -85,14 +85,14 @@ function Bills() {
       ),
     },
     {
-        title: "Total fare",
-        dataIndex: "_id",
-        render: (id, record) => (
-          <div>
-            <b>{record.quantity * record.price}</b>
-          </div>
-        ),
-      },
+      title: "Total fare",
+      dataIndex: "_id",
+      render: (id, record) => (
+        <div>
+          <b>{record.quantity * record.price}</b>
+        </div>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -145,26 +145,38 @@ function Bills() {
                 {selectedBill.createdAt.toString().substring(0, 10)}
               </p>
             </div>
-            <Table dataSource={selectedBill.cartItems} columns={cartcolumns} pagination={false}/>
+            <Table
+              dataSource={selectedBill.cartItems}
+              columns={cartcolumns}
+              pagination={false}
+            />
 
             <div className="dotted-border">
-                <p><b>SUB TOTAL</b> : Rs. {selectedBill.subTotal}/-</p>
-                <p><b>Tax</b> : Rs. {selectedBill.tax}/-</p>
+              <p>
+                <b>SUB TOTAL</b> : Rs. {selectedBill.subTotal}/-
+              </p>
+              <p>
+                <b>Tax</b> : Rs. {selectedBill.tax}/-
+              </p>
             </div>
 
             <div>
-                <h2><b>GRAND TOTAL : Rs. {selectedBill.totalAmount}/-</b></h2>
+              <h2>
+                <b>GRAND TOTAL : Rs. {selectedBill.totalAmount}/-</b>
+              </h2>
             </div>
             <div className="dotted-border"></div>
 
             <div className="text-center">
-                  <p>Thanks</p>
-                  <p>Visit Again :)</p>
+              <p>Thanks</p>
+              <p>Visit Again :)</p>
             </div>
           </div>
 
           <div className="d-flex justify-content-end">
-                  <Button type='primary' onClick={handlePrint}>Print Bill</Button>
+            <Button type="primary" onClick={handlePrint}>
+              Print Bill
+            </Button>
           </div>
         </Modal>
       )}
