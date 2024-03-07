@@ -25,8 +25,8 @@ function Items() {
   };
 
   const deleteItem = (record) => {
-    const userId = JSON.parse(localStorage.getItem("pos-user")).userId;
-    if (userId != "<Admin UserID>") {
+    const verified = JSON.parse(localStorage.getItem("pos-user")).verified;
+    if (verified !== true) {
       message.error("Only Admin can perform this operation");
       return;
     }
@@ -89,8 +89,8 @@ function Items() {
   }, []);
 
   const onFinish = (values) => {
-    const userId = JSON.parse(localStorage.getItem("pos-user")).userId;
-    if (userId !== "<Admin UserID>") {
+    const verified = JSON.parse(localStorage.getItem("pos-user")).verified;
+    if (verified !== true) {
       message.error("Only Admin can perform this operation");
       return;
     }
