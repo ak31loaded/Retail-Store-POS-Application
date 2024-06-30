@@ -6,14 +6,28 @@ const initailState = {
 export const rootReducer = (state = initailState, action) => {
   switch (action.type) {
     case "addToCart":
+      let found = false;
+      state.cartItems.map((items) => {
+        if (items._id == action.payload._id) {
+          found = true;
+          items.quantity += 1;
+        }
+      });
+      console.log(found);
+
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        cartItems: found
+          ? state.cartItems
+          : [...state.cartItems, action.payload],
       };
-      case "deleteFromCart":
+
+    case "deleteFromCart":
       return {
         ...state,
-        cartItems: state.cartItems.filter((item)=>item._id !== action.payload._id),
+        cartItems: state.cartItems.filter(
+          (item) => item._id !== action.payload._id
+        ),
       };
     case "updateCart":
       return {
@@ -24,14 +38,16 @@ export const rootReducer = (state = initailState, action) => {
             : item
         ),
       };
-    case 'showLoading' : return{
+    case "showLoading":
+      return {
         ...state,
-        loading : true
-    }
-    case 'hideLoading' : return{
+        loading: true,
+      };
+    case "hideLoading":
+      return {
         ...state,
-        loading:false
-    }
+        loading: false,
+      };
     default:
       return state;
   }
